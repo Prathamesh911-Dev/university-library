@@ -23,6 +23,9 @@ import { useRouter } from "next/navigation";
 
 import { bookSchema } from "@/lib/validations";
 import { Textarea } from "@/components/ui/textarea";
+import FileUpload from "@/components/FileUpload";
+import ColorPicker from "../ColorPicker";
+import { createBook } from "@/lib/admin/actions/book";
 
 interface Props extends Partial<Book> {
  type?: 'create' | 'update'  
@@ -52,7 +55,24 @@ interface Props extends Partial<Book> {
     }
   });
  
-  const onSubmit = async (values:z.infer<typeof bookSchema>) => {};
+  const onSubmit = async (values:z.infer<typeof bookSchema>) => {
+    const result = await createBook(values);
+
+    if(result.success) {
+      toast({
+        title: 'Success',
+        description: 'Book created successfully',
+      });
+      router.push(`/admin/books/${result.data.id}`);
+    } else {
+      toast({
+        title: 'Error',
+        description: result.message,
+        variant:'destructive',
+
+      });
+    }
+  };
   return (
     
     <Form {...form}>
@@ -201,7 +221,8 @@ interface Props extends Partial<Book> {
               Book Image
               </FormLabel>
             <FormControl>
-            {/* File Upload*/}
+            <FileUpload type="image" accept="image/*" placeholder="Upload a book cover" folder="books/covers" variant="light" 
+            onFileChange={field.onChange} value={field.value} />
 
             </FormControl>
   
@@ -219,7 +240,7 @@ interface Props extends Partial<Book> {
               Primary Color
               </FormLabel>
             <FormControl>
-            {/* Color Picker*/}
+            <ColorPicker onPickerChange={field.onChange} value={field.value}/>
 
             </FormControl>
   
@@ -259,7 +280,8 @@ interface Props extends Partial<Book> {
               Book Trailer
               </FormLabel>
             <FormControl>
-            {/* File Upload*/}
+            <FileUpload type="video" accept="video/*" placeholder="Upload a book trailer" folder="books/videos" variant="light" 
+            onFileChange={field.onChange} value={field.value} />
 
             </FormControl>
   

@@ -8,6 +8,20 @@
       "when": 1737042625223,
       "tag": "0000_modern_hercules",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1737645594972,
+      "tag": "0001_friendly_junta",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1739372669656,
+      "tag": "0002_yellow_cloak",
+      "breakpoints": true
     }
   ]
 }
